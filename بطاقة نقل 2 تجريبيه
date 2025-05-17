@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="بطاقة تشغيل المركبات - نظام إلكتروني">
+  <title>بطاقة تشغيل المركبات</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+    
+    :root {
+      --primary-color: #0056a3;
+      --secondary-color: #f5f7f9;
+      --text-color: #333;
+      --light-gray: #f0f0f0;
+      --border-radius: 8px;
+    }
+    
+    body {
+      background-color: var(--secondary-color);
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      color: var(--primary-color);
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    h2 {
+      color: var(--primary-color);
+      font-size: 18px;
+      font-weight: 700;
+      margin: 25px 0 15px 0;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--light-gray);
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .col {
+      width: 48%;
+      margin-bottom: 15px;
+    }
+
+    .label {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-color);
+      padding: 5px 0;
+      min-height: 25px;
+      line-height: 1.5;
+    }
+
+    .multi-line {
+      white-space: pre-line;
+    }
+
+    .editable {
+      cursor: pointer;
+      padding: 3px 5px;
+      border-radius: 3px;
+      transition: background-color 0.2s;
+    }
+
+    .editable:hover {
+      background-color: #f5f9ff;
+    }
+
+    .edit-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      min-height: 80px;
+      resize: vertical;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .save-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin: 30px auto 0;
+      font-size: 15px;
+      font-weight: 500;
+      display: block;
+      transition: background-color 0.2s;
+    }
+
+    .save-btn:hover {
+      background-color: #004080;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .col {
+        width: 100%;
+      }
+      .container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>تفاصيل بطاقة التشغيل</h1>
+    </div>
+
+    <h2>بيانات المنشأة/الفرد</h2>
+    <div class="row">
+      <div class="col">
+        <div class="label">الاسم</div>
+        <div class="value editable multi-line" id="company">شركة جبلان للخدمات اللوجستية</div>
+      </div>
+    </div>
+
+    <h2>معلومات الترخيص الرئيسي</h2>
+    <div class="row">
+      <div class="col">
+        <div class="label">رقم الترخيص</div>
+        <div class="value editable" id="license">54/00001793</div>
+      </div>
+      <div class="col">
+        <div class="label">نوع الترخيص/النشاط</div>
+        <div class="value editable multi-line" id="license_type">المراحلات الآلية لنقل البضائع
+البيئة التنظيمية التجريبية</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="label">المدينة</div>
+        <div class="value editable" id="city">الرياض</div>
+      </div>
+    </div>
+
+    <h2>بيانات بطاقة التشغيل</h2>
+    <div class="row">
+      <div class="col">
+        <div class="label">رقم البطاقة</div>
+        <div class="value editable" id="card_number">54-00012615</div>
+      </div>
+      <div class="col">
+        <div class="label">نوع بطاقة التشغيل</div>
+        <div class="value editable multi-line" id="card_type">المراحلات الآلية لنقل البضائع
+البيئة التنظيمية التجريبية</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="label">تاريخ الإصدار</div>
+        <div class="value editable" id="issue_date">1446/02/09</div>
+      </div>
+      <div class="col">
+        <div class="label">تاريخ الإنتهاء</div>
+        <div class="value editable" id="expiry_date">1447/04/11</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="label">تاريخ التجديد</div>
+        <div class="value editable" id="renewal_date">1446/11/07</div>
+      </div>
+    </div>
+
+    <h2>معلومات المركبة</h2>
+    <div class="row">
+      <div class="col">
+        <div class="label">نوع السيارة - الماركة و الطراز</div>
+        <div class="value editable multi-line" id="vehicle">دراجة نارية
+أوتوس</div>
+      </div>
+      <div class="col">
+        <div class="label">رقم اللوحة</div>
+        <div class="value editable" id="plate">679 و</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="label">سنة الصنع</div>
+        <div class="value editable" id="year">2023</div>
+      </div>
+      <div class="col">
+        <div class="label">لون المركبة</div>
+        <div class="value editable" id="color">أسود</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="label">الرقم التسلسلي</div>
+        <div class="value editable" id="serial">504436910</div>
+      </div>
+    </div>
+
+    <button class="save-btn" id="saveBtn">حفظ التعديلات</button>
+  </div>
+
+  <footer>
+    <p>© 2023 نظام بطاقة التشغيل الإلكترونية. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    // بيانات النسخة الاحتياطية
+    let originalData = {};
+
+    // دالة للحصول على المعلمات من URL
+    function getParam(key) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(key) || '';
+    }
+
+    // دالة لتعيين البيانات الأولية
+    function setData() {
+      const fields = [
+        'company', 'license', 'license_type', 'city',
+        'card_number', 'card_type', 'issue_date', 'expiry_date', 'renewal_date',
+        'vehicle', 'plate', 'year', 'color', 'serial'
+      ];
+      
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          originalData[id] = el.innerHTML;
+          if (!el.textContent.trim()) {
+            el.textContent = getParam(id);
+            originalData[id] = el.innerHTML;
+          }
+        }
+      });
+    }
+
+    // دالة لجعل العناصر قابلة للتعديل
+    function makeEditable() {
+      const editableElements = document.querySelectorAll('.editable');
+      
+      editableElements.forEach(element => {
+        element.addEventListener('click', function() {
+          if (this.querySelector('input, textarea')) return;
+          
+          const currentValue = this.innerHTML.replace(/<br>/g, '\n');
+          const isMultiLine = this.classList.contains('multi-line');
+          
+          const input = isMultiLine ? 
+            document.createElement('textarea') : 
+            document.createElement('input');
+            
+          input.value = currentValue;
+          input.className = isMultiLine ? 'edit-textarea' : 'edit-input';
+          
+          this.innerHTML = '';
+          this.appendChild(input);
+          input.focus();
+          
+          const saveChanges = () => {
+            let newValue = input.value.trim();
+            if (isMultiLine) {
+              newValue = newValue.replace(/\n/g, '<br>');
+            }
+            this.innerHTML = newValue || currentValue.replace(/\n/g, '<br>');
+            this.classList.add('editable');
+            if (isMultiLine) this.classList.add('multi-line');
+            makeEditable();
+          };
+          
+          input.addEventListener('blur', saveChanges);
+          input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !isMultiLine) {
+              e.preventDefault();
+              saveChanges();
+            }
+          });
+        });
+      });
+    }
+
+    // دالة لحفظ جميع التعديلات
+    function saveAllChanges() {
+      const fields = [
+        'company', 'license', 'license_type', 'city',
+        'card_number', 'card_type', 'issue_date', 'expiry_date', 'renewal_date',
+        'vehicle', 'plate', 'year', 'color', 'serial'
+      ];
+      
+      const changes = {};
+      let hasChanges = false;
+      
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.innerHTML !== originalData[id]) {
+          changes[id] = el.innerHTML.replace(/<br>/g, '\n');
+          originalData[id] = el.innerHTML;
+          hasChanges = true;
+        }
+      });
+      
+      if (hasChanges) {
+        alert('تم حفظ التعديلات بنجاح!\n\n' + JSON.stringify(changes, null, 2));
+        // يمكنك هنا إضافة كود لإرسال التعديلات إلى الخادم
+      } else {
+        alert('لا يوجد تعديلات لحفظها');
+      }
+    }
+
+    // تهيئة الصفحة عند التحميل
+    window.onload = function() {
+      setData();
+      makeEditable();
+      
+      document.getElementById('saveBtn').addEventListener('click', saveAllChanges);
+    };
+  </script>
+</body>
+</html>
